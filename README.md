@@ -27,7 +27,7 @@ A modern, feature-rich todo application built with HTML5, CSS3, and Vanilla Java
 
 ## 🚀 Live Demo
 
-[View Live Demo](https://your-username.github.io/TASK_FLOW_Project/)
+[View Live Demo](https://task-flow-xzr4.vercel.app/)
 
 ## 🛠️ Technology Stack
 
@@ -195,7 +195,7 @@ This project is created as part of a web development assignment. Feel free to us
 ## 👨‍💻 Author
 
 **Your Name**
-- GitHub: [@your-username](https://github.com/your-username)
+- GitHub: [@Saumya20062004](https://github.com/Saumya20062004)
 
 ## 🙏 Acknowledgments
 
