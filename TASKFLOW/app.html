@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TaskFlow - Todo App</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div id="locale-placeholder" data-locale="guj"></div>
+  
+  <header class="header">
+    <div class="profile">
+      <img id="avatar" src="" alt="Avatar"/>
+      <span id="username"></span>
+    </div>
+    <div class="header-controls">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme">🌙</button>
+      <button id="signout">Sign Out</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="search-container">
+      <div class="search-bar">
+        <div class="search-input-group">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search tasks..."/>
+        </div>
+        <div class="filter-group">
+          <select id="categoryFilter" class="filter-select">
+            <option value="">All Categories</option>
+            <option value="work">💼 Work</option>
+            <option value="personal">👤 Personal</option>
+            <option value="health">🏥 Health</option>
+            <option value="learning">📚 Learning</option>
+            <option value="shopping">🛒 Shopping</option>
+            <option value="other">📌 Other</option>
+          </select>
+          <select id="priorityFilter" class="filter-select">
+            <option value="">All Priorities</option>
+            <option value="high">🔴 High</option>
+            <option value="medium">🟡 Medium</option>
+            <option value="low">🟢 Low</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-stage="todo">Todo (<span id="todo-count">0</span>)</button>
+      <button class="tab" data-stage="completed">Completed (<span id="completed-count">0</span>)</button>
+      <button class="tab" data-stage="archived">Archived (<span id="archived-count">0</span>)</button>
+    </div>
+
+    <div class="task-input">
+      <input type="text" id="taskInput" placeholder="Add your task (text-box)"/>
+      <div class="task-options">
+        <input type="date" id="dueDate" placeholder="Due date"/>
+        <select id="taskCategory">
+          <option value="other">📌 Other</option>
+          <option value="work">💼 Work</option>
+          <option value="personal">👤 Personal</option>
+          <option value="health">🏥 Health</option>
+          <option value="learning">📚 Learning</option>
+          <option value="shopping">🛒 Shopping</option>
+        </select>
+        <select id="taskPriority">
+          <option value="medium">🟡 Medium</option>
+          <option value="high">🔴 High</option>
+          <option value="low">🟢 Low</option>
+        </select>
+        <select id="reminderTime">
+          <option value="">No reminder</option>
+          <option value="15">15 minutes before</option>
+          <option value="30">30 minutes before</option>
+          <option value="60">1 hour before</option>
+          <option value="1440">1 day before</option>
+        </select>
+        <select id="recurringType">
+          <option value="">No repeat</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
+      <!-- Subtasks Section -->
+      <div class="subtasks-section">
+        <div class="subtasks-header">
+          <h4>📋 Subtasks (Optional)</h4>
+          <button type="button" id="addSubtask" class="add-subtask-btn">+ Add Subtask</button>
+        </div>
+        <div id="subtasksList" class="subtasks-list">
+          <!-- Subtasks will be added here dynamically -->
+        </div>
+      </div>
+      <button id="addTask">Submit</button>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-number" id="totalTasks">0</span>
+        <span class="stat-label">Total Tasks</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" id="overdueTasks">0</span>
+        <span class="stat-label">Overdue</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" id="completionRate">0%</span>
+        <span class="stat-label">Completion Rate</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" id="streakCount">0</span>
+        <span class="stat-label">Day Streak</span>
+      </div>
+    </div>
+
+    <!-- Analytics Section -->
+    <section class="analytics-section">
+      <div class="analytics-header">
+        <h3>📊 Analytics Dashboard</h3>
+        <div class="analytics-controls">
+          <button id="refreshAnalytics" class="refresh-btn">🔄 Refresh</button>
+        </div>
+      </div>
+      
+      <div class="analytics-grid">
+        <!-- Weekly Progress Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h4>📈 Weekly Progress</h4>
+            <p>Tasks completed this week</p>
+          </div>
+          <div class="chart-container">
+            <canvas id="weeklyChart" height="200"></canvas>
+          </div>
+        </div>
+
+        <!-- Category Distribution -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h4>📊 Task Categories</h4>
+            <p>Distribution by category</p>
+          </div>
+          <div class="chart-container">
+            <canvas id="categoryChart" height="200"></canvas>
+          </div>
+        </div>
+
+        <!-- Priority Distribution -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h4>🎯 Priority Breakdown</h4>
+            <p>Tasks by priority level</p>
+          </div>
+          <div class="chart-container">
+            <canvas id="priorityChart" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insights Panel -->
+      <div class="insights-panel">
+        <div class="insight-card">
+          <div class="insight-icon">🎯</div>
+          <div class="insight-content">
+            <h4>Weekly Goal</h4>
+            <div class="goal-progress">
+              <div class="goal-bar">
+                <div class="goal-fill" id="goalProgressBar"></div>
+              </div>
+              <span id="goalText">0/7 tasks completed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="insight-card">
+          <div class="insight-icon">🔥</div>
+          <div class="insight-content">
+            <h4>Current Streak</h4>
+            <p id="streakText">0 days</p>
+          </div>
+        </div>
+
+        <div class="insight-card">
+          <div class="insight-icon">⚡</div>
+          <div class="insight-content">
+            <h4>Productivity Score</h4>
+            <p id="productivityScore">0%</p>
+          </div>
+        </div>
+
+        <div class="insight-card">
+          <div class="insight-icon">📅</div>
+          <div class="insight-content">
+            <h4>Upcoming Deadlines</h4>
+            <p id="upcomingDeadlines">0 tasks due soon</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pomodoro Timer Section -->
+    <div class="pomodoro-section">
+      <div class="pomodoro-header">
+        <h3>🍅 Focus Timer</h3>
+        <div class="pomodoro-controls">
+          <button id="pomodoroStart" class="pomodoro-btn">Start</button>
+          <button id="pomodoroPause" class="pomodoro-btn" disabled>Pause</button>
+          <button id="pomodoroReset" class="pomodoro-btn">Reset</button>
+        </div>
+      </div>
+      <div class="pomodoro-display">
+        <div class="timer-display" id="timerDisplay">25:00</div>
+        <div class="timer-mode" id="timerMode">Work Session</div>
+        <div class="timer-progress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+      <div class="pomodoro-settings">
+        <div class="setting-group">
+          <label>Work Time (min):</label>
+          <input type="number" id="workTime" value="25" min="1" max="60">
+        </div>
+        <div class="setting-group">
+          <label>Break Time (min):</label>
+          <input type="number" id="breakTime" value="5" min="1" max="30">
+        </div>
+        <div class="setting-group">
+          <label>Long Break (min):</label>
+          <input type="number" id="longBreakTime" value="15" min="5" max="60">
+        </div>
+      </div>
+    </div>
+
+    <div id="taskList"></div>
+  </main>
+
+  <div id="notification" class="notification hidden"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>

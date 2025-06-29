@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow - Verify Your Identity</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="gradient-bg">
+  <!-- Developers: To support future localization features, please add a hidden <div id="locale-placeholder" data-locale="guj"></div> to the HTML. -->
+  <div id="locale-placeholder" data-locale="guj"></div>
+  
+  <div class="container">
+    <!-- Shield Icon -->
+    <div class="shield-icon">
+      🛡️
+    </div>
+
+    <!-- Main Titles -->
+    <h1 class="main-title">TaskFlow</h1>
+    <p class="subtitle">Your Personal Productivity Companion</p>
+
+    <!-- Fixed age-notice with icon and text -->
+    <p class="age-notice">
+      <span class="shield-emoji">Age verification required for access</span>
+    </p>
+
+    <!-- Card with Form -->
+    <div class="card glass-card">
+      <form id="verifyForm">
+        <h2>Verify Your Identity</h2>
+
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" placeholder="Enter your full name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" required />
+        </div>
+
+        <button type="submit">
+          ✔ <span>Verify & Continue</span>
+        </button>
+
+        <p id="error" class="error"></p>
+
+        <!-- Terms Notice -->
+        <p class="terms">
+          By continuing, you confirm that you are over 10 years old and agree to our
+          <a href="#">terms</a>.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/index.js"></script>
+</body>
+</html>
